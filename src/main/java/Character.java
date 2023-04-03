@@ -43,6 +43,7 @@ public class Character {
         this.protection = protection;
     }
 
+
     public void setSpeed(double speed) {
         this.speed = speed;
     }
