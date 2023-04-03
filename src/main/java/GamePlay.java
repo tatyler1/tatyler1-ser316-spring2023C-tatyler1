@@ -78,8 +78,17 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public int dealDamage(Character character) {
-    System.out.println("Not Implemented here, your job in assign 3");
-    return 1;
+    if (character.health <= 0) {
+        return 0;
+    }
+    else if (character.health < 10) {
+        character.experience += character.damage;
+        return 2 * character.damage;
+    } else if (character.health >= 10 ) {
+        character.experience += character.damage;
+        return character.damage;
+    }
+        return 0;
     }
 
     /**
@@ -102,8 +111,19 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public int takeDamage(Character character, int blowDamage) {
-        System.out.println("Not Implemented here your job in assign 3");
-        return 1;
+        int damage = character.protection - blowDamage;
+        if(character.protection > blowDamage) {
+            character.experience += damage;
+            character.health += damage / 2;
+        }
+        else {
+            character.experience -= damage / 2;
+            character.health += damage;
+        }
+        if (character.health < 0) {
+            character.health = 0;
+        }
+        return damage;
     }
 
     /**
@@ -183,7 +203,23 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public void attack(Character character, Character opponent) {
-        System.out.println("Not Implemented here your job in assign 3");
+        int damage = 0;
+        if (character.health > 0 && opponent.health > 0) {
+            damage = dealDamage(character);
+            takeDamage(opponent, damage);
+
+            damage = dealDamage(opponent);
+            if (character.health > 0 && opponent.health > 0) {
+                takeDamage(character, damage);
+                if (character.health > 0) {
+                    levelUp(character);
+                }
+                if (opponent.health > 0) {
+                    levelUp(opponent);
+                }
+            }
+
+        }
     }
 
     /**
