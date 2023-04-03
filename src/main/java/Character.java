@@ -1,10 +1,10 @@
 public class Character {
-    int health=100;
-    int level=1;
+    private int health=100;
+    private int level=1;
     int experience=0;
-    int protection=0;
-    int damage=0;
-    double speed=0.0;
+    private int protection=0;
+    private int damage=0;
+    private double speed=0.0;
     int pointsPerLevel=100;
 
     public void printInfo() {

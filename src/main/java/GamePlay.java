@@ -115,42 +115,42 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public boolean levelUp(Character character) {
-        if(character.experience >= character.pointsPerLevel) {
-            if(character.experience == character.pointsPerLevel)
+        if(character.getExperience() >= character.getPointsPerLevel()) {
+            if(character.getExperience() == character.getPointsPerLevel())
                 character.experience += 5;
 
-            character.level++;
+            character.setLevel(character.getLevel() + 1);
             character.pointsPerLevel *= 2; // need more points to level up next time
-            character.health = 100; // level up resets health
+            character.setHealth(100); // level up resets health
 
             if(character.getClass().getName() == new Barbarian().getClass().getName()){
-                character.damage += 10;
-                character.speed=character.speed+0.25;
-                character.protection +=2;
+                character.setDamage(character.getDamage() + 10);
+                character.setSpeed(character.getSpeed() + 0.25);
+                character.setProtection(character.getProtection() + 2);
             }else if(character.getClass().getName() == new Bard().getClass().getName()){
-                character.damage += character.damage/2;
-                character.speed += 0.5;
-                character.protection += character.protection/2;
+                character.setDamage(character.getDamage() + (character.getDamage()/2));
+                character.setSpeed(character.getSpeed() + 0.5);
+                character.setProtection(character.getProtection() + (character.getProtection() / 2));
             }else if(character.getClass().getName() == new Druid().getClass().getName()){
-                character.damage += 10;
-                character.speed += 0.25;
-                character.protection = character.protection += 2;
+                character.setDamage(character.getDamage() + 10);
+                character.setSpeed(character.getSpeed() + 0.25);
+                character.setProtection(character.getProtection() + 2);
             }else if(character.getClass().getName() == new Ranger().getClass().getName()){
-                character.damage += character.damage%10;
-                character.speed += 0.5;
-                character.protection += character.protection%5;
+                character.setDamage(character.getProtection() + (character.getProtection() % 10));
+                character.setSpeed(character.getSpeed() + 0.5);
+                character.setDamage(character.getProtection() + (character.getProtection() % 5));
             }else if(character.getClass().getName() == new Rogue().getClass().getName()){
-                character.damage += character.damage/3;
-                character.speed += 1.25;
-                character.protection += 3;
+                character.setDamage(character.getDamage() + (character.getDamage()/3));
+                character.setSpeed(character.getSpeed() + 1.25);
+                character.setProtection(character.getProtection() + 3);
             }else if(character.getClass().getName() == new Wizard().getClass().getName()){
-                character.damage += 5;
-                character.speed += 1;
-                character.protection += 1;
+                character.setDamage(character.getDamage() + 5);
+                character.setSpeed(character.getSpeed() + 1);
+                character.setProtection(character.getProtection() + 1);
             }else{
-                character.damage++;
-                character.speed += 0.25;
-                character.protection++;
+                character.setDamage(character.getDamage() + 1);
+                character.setSpeed(character.getSpeed() + 0.25);
+                character.setProtection(character.getProtection() + 1);
             }
             levelUp(character);
         }
@@ -208,14 +208,14 @@ public class GamePlay implements GamePlayInterface {
         for (Character opponent : Opponents) {
             //determine order of attack and give experience points for attacking first
             Character[] orderOfAttack = new Character[2];
-            if (player.speed > opponent.speed) {
+            if (player.getSpeed() > opponent.getSpeed()) {
                 orderOfAttack[0] = player;
                 orderOfAttack[1] = opponent;
-                player.experience += Math.ceil(player.speed - opponent.speed);
+                player.experience += Math.ceil(player.getSpeed() - opponent.getSpeed());
                 } else {
                 orderOfAttack[1] = opponent;
                 orderOfAttack[0] = player;
-                opponent.experience += Math.ceil(opponent.speed - player.speed);
+                opponent.experience += Math.ceil(opponent.getSpeed() - player.getSpeed());
              }
 
             // attack in order
@@ -225,7 +225,7 @@ public class GamePlay implements GamePlayInterface {
 
         // remove opponents that have <= 0 health
         for (int o=0; o < Opponents.size(); o++) {
-            if (Opponents.get(o).health <= 0) {
+            if (Opponents.get(o).getHealth() <= 0) {
                 System.out.println(Opponents.get(o).getClass().getName() + " removed\n");
                 removeOpponent(Opponents.get(o));
                 o--;
