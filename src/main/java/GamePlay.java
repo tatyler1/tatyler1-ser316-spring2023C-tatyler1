@@ -4,7 +4,7 @@ public class GamePlay implements GamePlayInterface {
     
     public Character player;
     public List<Character> opponents;
-    public List<Character> remove;
+    //SER316 TASK 2 SPOT-BUGS FIX’
     
     /**
      * Default constructor for Game Play.
@@ -90,12 +90,11 @@ public class GamePlay implements GamePlayInterface {
         } else if (character.health < 10) {
             character.experience += character.damage;
             return 2 * character.damage;
-        } else if (character.health >= 10 ) {
+        } else //SER316 TASK 2 SPOT-BUGS FIX’ {
             character.experience += character.damage;
             return character.damage;
     }
-        return 0;
-    }
+
 
     /**
      * Function to add experience points for attacked character
@@ -137,7 +136,7 @@ public class GamePlay implements GamePlayInterface {
     /**
      * Function to level up characters correctly, if they have enough points to do so.
      * You can assume that the new stats are what we want, so they are not wrong. So this method is not wrong, it is the way we want it!
- 
+     *
      * @param character
      * @return boolean true if character leveld up, false if they did not
      */
@@ -165,7 +164,8 @@ public class GamePlay implements GamePlayInterface {
             } else if (character.getClass().getName().equals("Druid")) {
                 character.damage += 10;
                 character.speed += 0.25;
-                character.protection = character.protection += 2;
+                //SER316 TASK 2 SPOT-BUGS FIX’
+                character.protection += 2;
                 //SER316 TASK 2 SPOT-BUGS FIX’
             } else if (character.getClass().getName().equals("Ranger")) {
                 character.damage += character.damage % 10;
@@ -188,8 +188,7 @@ public class GamePlay implements GamePlayInterface {
             }
             levelUp(character);
         }
-        boolean test;
-        return test = false;
+        return true;
     }
 
     /**
