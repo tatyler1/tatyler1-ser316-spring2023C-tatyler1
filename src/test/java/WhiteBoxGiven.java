@@ -31,7 +31,7 @@ public class WhiteBoxGiven {
     public void emptyGameplayArray() {
         GamePlay game = new GamePlay(new Barbarian(), null);
         int i = 0;
-        for(Character opponent : game.Opponents) {
+        for(Character opponent : game.opponents) {
             System.out.println(opponent);
             i++;
         }
@@ -61,7 +61,7 @@ public class WhiteBoxGiven {
 
         GamePlay game = new GamePlay(wiz1,wiz2);
         game.play();
-        assertEquals(game.Opponents.size(), 0);
+        assertEquals(game.opponents.size(), 0);
     }
     @Test
     public void opponentVeryDead() {
@@ -71,7 +71,7 @@ public class WhiteBoxGiven {
 
         GamePlay game = new GamePlay(wiz1,wiz2);
         game.play();
-        assertEquals(game.Opponents.size(), 0);
+        assertEquals(game.opponents.size(), 0);
     }
 
 }
