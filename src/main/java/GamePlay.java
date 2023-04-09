@@ -3,7 +3,7 @@ import java.util.*;
 public class GamePlay implements GamePlayInterface {
     
     public Character player;
-    public List<Character> Opponents;
+    public List<Character> opponents;
     public List<Character> remove;
     
     /**
@@ -20,13 +20,13 @@ public class GamePlay implements GamePlayInterface {
      */
     public GamePlay(Character character) {
         this.player = character;
-        this.Opponents = new LinkedList<>();
+        this.opponents = new LinkedList<>();
         addOpponent(new Wizard());
-        this.Opponents.add(new Bard());
-        this.Opponents.add(new Druid());
-        this.Opponents.add(new Rogue());
-        this.Opponents.add(new Ranger());
-        this.Opponents.add(new Barbarian());
+        this.opponents.add(new Bard());
+        this.opponents.add(new Druid());
+        this.opponents.add(new Rogue());
+        this.opponents.add(new Ranger());
+        this.opponents.add(new Barbarian());
     }
 
     /**
@@ -38,8 +38,8 @@ public class GamePlay implements GamePlayInterface {
      */
     public GamePlay(Character character, Character opponent) {
         this.player = character;
-        this.Opponents = new LinkedList<>();
-        this.Opponents.add(opponent);
+        this.opponents = new LinkedList<>();
+        this.opponents.add(opponent);
     }
 
     /**
@@ -50,8 +50,11 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public boolean addOpponent(Character opponent) {
-        if (this.Opponents.add(opponent)) return true;
-        else return false;
+        if (this.opponents.add(opponent)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -62,49 +65,55 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public boolean removeOpponent(Character opponent) {
-        if (this.Opponents.remove(opponent))
+        if (this.opponents.remove(opponent)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
-     * Function to add experience points for attacking character and returning the damage the character tries to deal.
-     * Experience is only gained if the character still has more than 0 health, damage is also only dealt when health > 0. 
-     * If the health of a character is less than 10 they deal double damage.
+     * Function to add experience points for attacking character
+     * and returning the damage the character tries to deal.
+     * Experience is only gained if the character still has more than 0 health,
+     * damage is also only dealt when health > 0.
+     * If the health of a character is less than 10 they
+     * deal double damage.
      *
      * @param character that is dealing damage
      * @return damage stat of character as int
      */
     @Override
     public int dealDamage(Character character) {
-    if (character.health <= 0) {
-        return 0;
-    }
-    else if (character.health < 10) {
-        character.experience += character.damage;
-        return 2 * character.damage;
-    } else if (character.health >= 10 ) {
-        character.experience += character.damage;
-        return character.damage;
+        if (character.health <= 0) {
+            return 0;
+        } else if (character.health < 10) {
+            character.experience += character.damage;
+            return 2 * character.damage;
+        } else if (character.health >= 10 ) {
+            character.experience += character.damage;
+            return character.damage;
     }
         return 0;
     }
 
     /**
-     * Function to add experience points for attacked character as well as update their health based on the attack and
-     * their protection.
-     * If their protection is higher than the blowDamage then the character will heal by half of that difference they will also gain
+     * Function to add experience points for attacked character
+     * as well as update their health based on the attack and their protection.
+     * If their protection is higher than the blowDamage then the
+     * character will heal by half of that difference they will also gain
      * the full difference as experience
-     * 
-     * If their protection is lower or equal than the blowDamage then the character will take half the difference as experience and the health will be reduced
+     * <p>
+     * If their protection is lower or equal than the blowDamage then
+     * the character will take half the difference as experience and the health will be reduced
      * by the full difference.
-     * 
-     * 
+     * </p>
+     * <p>
      * If the difference by half is 0.5 we floor it. 
-     * 
+     * </p>
+     * <p>
      * Health cannot go below 0
-     * 
+     * </p>
      * @param character that is being attacked
      * @param blowDamage full force of attack without protection factored in
      * @return amount of damage actually taken by the character as int
@@ -112,11 +121,10 @@ public class GamePlay implements GamePlayInterface {
     @Override
     public int takeDamage(Character character, int blowDamage) {
         int damage = character.protection - blowDamage;
-        if(character.protection > blowDamage) {
+        if (character.protection > blowDamage) {
             character.experience += damage;
             character.health += damage / 2;
-        }
-        else {
+        } else {
             character.experience -= damage / 2;
             character.health += damage;
         }
@@ -135,39 +143,45 @@ public class GamePlay implements GamePlayInterface {
      */
     @Override
     public boolean levelUp(Character character) {
-        if(character.experience >= character.pointsPerLevel) {
-            if(character.experience == character.pointsPerLevel)
+        if (character.experience >= character.pointsPerLevel) {
+            if (character.experience == character.pointsPerLevel) {
                 character.experience += 5;
-
+            }
             character.level++;
             character.pointsPerLevel *= 2; // need more points to level up next time
             character.health = 100; // level up resets health
 
-            if(character.getClass().getName() == new Barbarian().getClass().getName()){
+            //SER316 TASK 2 SPOT-BUGS FIX’
+            if (character.getClass().getName().equals("Barbarian")) {
                 character.damage += 10;
-                character.speed=character.speed+0.25;
-                character.protection +=2;
-            }else if(character.getClass().getName() == new Bard().getClass().getName()){
-                character.damage += character.damage/2;
+                character.speed = character.speed + 0.25;
+                character.protection += 2;
+                //SER316 TASK 2 SPOT-BUGS FIX’
+            } else if (character.getClass().getName().equals("Bard")) {
+                character.damage += character.damage / 2;
                 character.speed += 0.5;
-                character.protection += character.protection/2;
-            }else if(character.getClass().getName() == new Druid().getClass().getName()){
+                character.protection += character.protection / 2;
+                //SER316 TASK 2 SPOT-BUGS FIX’
+            } else if (character.getClass().getName().equals("Druid")) {
                 character.damage += 10;
                 character.speed += 0.25;
                 character.protection = character.protection += 2;
-            }else if(character.getClass().getName() == new Ranger().getClass().getName()){
-                character.damage += character.damage%10;
+                //SER316 TASK 2 SPOT-BUGS FIX’
+            } else if (character.getClass().getName().equals("Ranger")) {
+                character.damage += character.damage % 10;
                 character.speed += 0.5;
-                character.protection += character.protection%5;
-            }else if(character.getClass().getName() == new Rogue().getClass().getName()){
-                character.damage += character.damage/3;
+                character.protection += character.protection % 5;
+                //SER316 TASK 2 SPOT-BUGS FIX’
+            } else if (character.getClass().getName().equals("Rogue")) {
+                character.damage += character.damage / 3;
                 character.speed += 1.25;
                 character.protection += 3;
-            }else if(character.getClass().getName() == new Wizard().getClass().getName()){
+                //SER316 TASK 2 SPOT-BUGS FIX’
+            } else if (character.getClass().getName().equals("Wizard")) {
                 character.damage += 5;
                 character.speed += 1;
                 character.protection += 1;
-            }else{
+            } else {
                 character.damage++;
                 character.speed += 0.25;
                 character.protection++;
@@ -179,24 +193,20 @@ public class GamePlay implements GamePlayInterface {
     }
 
     /**
-     * Function that facilitates the attacker dealing damage to their opponent and then the opposite.
-     * 
-     * A character can only attack if both still have health greater than 0, this needs to be true for both attacks happening here
-     * 
+     * Function that facilitates the attacker dealing damage to their opponent and then the opposite
+     * A character can only attack if both still have health greater than 0,
+     * this needs to be true for both attacks happening here
      * You do NOT have the implemented methods for this but just 5 implemented versions in the .class files in the cls
-     * directory. So you need to Blackbox test this method based on the description you get here. As you see the method returns void, 
-     * so no return type. You need to come up with a way to still test if this method does what it is supposed to do. 
-     * It is up to you to figure that out. 
-     * 
-     * This method uses dealDamage and takeDamage from above, which you should BlackBox test first. 
-     * 
+     * directory. So you need to Blackbox test this method based on the description you get here.
+     *  As you see the method returns void,
+     * so no return type. You need to come up with a way to still test
+     * if this method does what it is supposed to do.
+     * It is up to you to figure that out.
+     * This method uses dealDamage and takeDamage from above, which you should BlackBox test first.
      * An attack only happens if health>0 for both characters
-     * The first character attacks first, by using dealsDamage and the opponent takesDamage. 
+     * The first character attacks first, by using dealsDamage and the opponent takesDamage.
      * Then the characters level up (call levelUp on both) -- if health > 0
-     * 
      * Then the other character attacks, same procedure as above
-     * 
-     * 
      *
      * @param character that is attacking
      * @param opponent that is being attacked
@@ -241,7 +251,7 @@ public class GamePlay implements GamePlayInterface {
     @Override
     public int play() {
         int startingExperience = player.experience;
-        for (Character opponent : Opponents) {
+        for (Character opponent : opponents) {
             //determine order of attack and give experience points for attacking first
             Character[] orderOfAttack = new Character[2];
             if (player.speed > opponent.speed) {
@@ -260,15 +270,13 @@ public class GamePlay implements GamePlayInterface {
         }
 
         // remove opponents that have <= 0 health
-        for (int o=0; o < Opponents.size(); o++) {
-            if (Opponents.get(o).health <= 0) {
-                System.out.println(Opponents.get(o).getClass().getName() + " removed\n");
-                removeOpponent(Opponents.get(o));
+        for (int o = 0; o < opponents.size(); o++) {
+            if (opponents.get(o).health <= 0) {
+                System.out.println(opponents.get(o).getClass().getName() + " removed\n");
+                removeOpponent(opponents.get(o));
                 o--;
             }
         }
-
-
         return player.experience - startingExperience;
     }
     
