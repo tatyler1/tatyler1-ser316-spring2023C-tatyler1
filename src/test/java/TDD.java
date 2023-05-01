@@ -9,12 +9,12 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class BlackBoxGiven {
+public class TDD {
 
     private Class<GamePlay> classUnderTest;
 
     @SuppressWarnings("unchecked")
-    public BlackBoxGiven(Object classUnderTest) {
+    public TDD(Object classUnderTest) {
         this.classUnderTest = (Class<GamePlay>) classUnderTest;
     }
 
