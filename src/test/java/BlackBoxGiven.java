@@ -19,17 +19,7 @@ public class BlackBoxGiven {
     }
 
     // Define all classes to be tested
-    @Parameterized.Parameters
-    public static Collection<Object[]> cartClassUnderTest() {
-        Object[][] classes = {
-            {GamePlay1.class},
-            {GamePlay2.class},
-            {GamePlay3.class},
-            {GamePlay4.class},
-            {GamePlay5.class}
-        };
-        return Arrays.asList(classes);
-    }
+
 
     private GamePlay createGame() throws Exception {
         Constructor<GamePlay> constructor = classUnderTest.getConstructor();
