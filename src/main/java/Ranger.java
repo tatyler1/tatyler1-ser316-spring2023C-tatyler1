@@ -7,4 +7,10 @@ public class Ranger extends Character {
         pointsPerLevel = 15;
     }
 
+    public void levelUp() {
+        this.damage += this.damage%10;
+        this.speed += 0.5;
+        this.protection += this.protection%5;
+    }
+
 }

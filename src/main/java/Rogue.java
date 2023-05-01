@@ -7,4 +7,10 @@ public class Rogue extends Character {
         pointsPerLevel = 20;
     }
 
+    public void levelUp() {
+        this.damage += this.damage/3;
+        this.speed += 1.25;
+        this.protection += 3;
+    }
+
 }

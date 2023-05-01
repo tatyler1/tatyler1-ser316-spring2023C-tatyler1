@@ -7,4 +7,10 @@ public class Barbarian extends Character {
         pointsPerLevel = 20;
     }
 
+    public void levelUp() {
+        this.damage += this.damage/2;
+        this.speed += 0.5;
+        this.protection += this.protection/2;
+    }
+
 }
